@@ -1,0 +1,1 @@
+Get-ADGroupMember -identity SCCMConsole -Recursive | Select-Object Name | export-csv C:\temp\allsccmKonsoleUserz.txt -Encoding Unicode

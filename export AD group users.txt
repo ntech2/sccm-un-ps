@@ -1,0 +1,1 @@
+get-adgroupmember -Identity "Administratoru konti" | Select-Object SamAccountName | Export-Csv c:\temp\AllADadminusers.txt

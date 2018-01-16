@@ -1,0 +1,13 @@
+The easiest way is using either quest cmdlets or AD PowerShell.
+
+Using quest cmdlets:
+
+Get-Content c:\users.txt | foreach {
+    (Get-QADUser $_).DisplayName
+}
+
+Using AD PowerShell:
+
+Get-Content c:\users.txt | foreach {
+    (Get-ADUser $_  -Properties DisplayName).DisplayName
+}
