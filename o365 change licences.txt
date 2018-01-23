@@ -1,0 +1,9 @@
+$UPNs = Get-Content "c:\temp\o365test.txt"
+foreach ($upn in $UPNs){Get-MsolUser -UserPrincipalName $upn |Select userprincipalname,Licenses|Set-MsolUserLicense -AddLicenses LDZLV:OFFICESUBSCRIPTION -RemoveLicenses LDZLV:ENTERPRISEPACK} 
+
+
+
+Get-MsolUser -all |select UserPrincipalName,Licenses| Where-object {$_.Licenses.accountskuid -eq "LDZLV:ENTERPRISEPACK"}|Select UserPrincipalName|Export-Csv -Encoding Unicode –Path 
+
+
+Connect-msolservice
