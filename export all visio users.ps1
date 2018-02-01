@@ -1,0 +1,1 @@
+﻿Get-MsolUser -All | Where-Object {($_.licenses).AccountSkuId -match "VISIOCLIENT"}  |select UserPrincipalName,Licenses| Export-Csv -Encoding Unicode –Path c:/temp/visioALL.csv
