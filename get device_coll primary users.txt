@@ -1,0 +1,15 @@
+$comps = Get-CMDevice -CollectionId LDZ0043F  | Select-Object Name -ExpandProperty Name
+
+
+foreach ($comp in $comps)
+{
+$primary = Get-CMUserDeviceAffinity -DeviceName $comps |where {$_.types -like "1"}
+$name = $primary | select ResourceName, UniqueUserName
+
+$name | Export-Csv -Path c:\temp\tehdata.csv -Append
+
+
+}
+
+
+### devices, kam nav definets primary user tiks ignoreeti. Var atseviski izvilkt list ar visiem PC vai visiem user un atnemt shos, tad ieguus tos, kam nav primary.
