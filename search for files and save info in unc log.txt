@@ -1,0 +1,27 @@
+$nosaukumi = Get-Childitem –Path "C:\Users\$env:USERNAME" -Include "*.odt" -File -Recurse
+
+
+if ($nosaukumi) {
+$skaits = $nosaukumi.count
+$pcname = $ENV:COMPUTERNAME
+$username = $env:USERNAME
+$num = 0
+$text = "User'$username' on computer '$pcname' contains $skaits ODT files. They are:`n`n"
+Add-Content -path "\\shire\PSScriptLogs$\ODTreport\$skaits+odt+$username+$pcname.log" -Value "$text"
+
+foreach ($nosaukums in $nosaukumi){
+$addtext = $nosaukums.FullName
+$num = $num+1
+
+$created = ($nosaukums.CreationTime).ToString("dd.MM.yyyy")
+$currentdate = get-date
+$lastchanged = $nosaukums.LastWriteTime
+$lastchangeddays = ($currentdate - $lastchanged).Days
+$lastchangedhours = ($currentdate - $lastchanged).Hours
+$lastchangedminutes = ($currentdate - $lastchanged).minutes
+$log = "$num. $addtext - File created $created and last modified $lastchangeddays days $lastchangedhours hours $lastchangedminutes minutes ago.`n"
+Add-Content -path "\\shire\PSScriptLogs$\ODTreport\$skaits+odt+$username+$pcname.log" -Value $log
+
+
+}
+}

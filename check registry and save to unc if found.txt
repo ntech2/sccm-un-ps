@@ -1,0 +1,17 @@
+$pcname = $env:computername
+$user = $env:username
+$date = (Get-Date -Format g)
+$log_unc = "\\shire\psscriptlogs$\OfficeDefaults"
+
+$a = Get-ItemProperty -path HKCU:\SOFTWARE\Microsoft\Office\14.0\Word\Options -ErrorAction SilentlyContinue | Select-Object -ExpandProperty DefaultFormat -ErrorAction SilentlyContinue
+$b = Get-ItemProperty -path HKCU:\SOFTWARE\Microsoft\Office\15.0\Word\Options -ErrorAction SilentlyContinue | Select-Object -ExpandProperty DefaultFormat -ErrorAction SilentlyContinue
+$c = Get-ItemProperty -path HKCU:\SOFTWARE\Microsoft\Office\16.0\Word\Options -ErrorAction SilentlyContinue | Select-Object -ExpandProperty DefaultFormat -ErrorAction SilentlyContinue
+
+if ($a -or $b -or $c)
+	{
+		$log= "$date,PC:$pcname,User:$user,Contents:`nOffice10:$a,`nOffice13:$b,`nOffice16:$c."
+	    Add-Content "c:\temp\ITC\officeFormatLog.log" $log
+	    Copy-Item -Path "c:\temp\ITC\officeFormatLog.log" -Destination "$log_unc\Files\$a$b$c-$pcname-$user.log"
+        $test = Test-path -Path "$log_unc\Files\$a$b$c-$pcname-$user.log"
+        if ($test -eq $false){Exit-Script -ExitCode 1}else{Exit-Script -ExitCode 0}
+	}
